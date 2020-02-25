@@ -3,7 +3,7 @@ import bcrypt
 
 
 @database_common.connection_handler
-def insert_new_spiders(cursor,spider_name,world,price,info):
+def insert_new_spiders(cursor, spider_name, world, price, info):
     cursor.execute("""
                         INSERT INTO spiders (spider_name, world, price, information) 
                         VALUES (%(spider_name)s,%(world)s,%(price)s,%(info)s)
@@ -79,9 +79,3 @@ def get_username_by_user_id(cursor,userid):
                 WHERE id = %(userid)s
     """,
                    {"userid": userid})
-
-@database_common.connection_handler
-def delete_users(cursor):
-    cursor.execute("""
-                    DELETE FROM users WHERE users.user_name = 'kori'
-    """)

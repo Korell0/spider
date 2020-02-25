@@ -1,1 +1,36 @@
-body{background: goldenrod}
+body{background-color: #c78d09!important;}
+
+.bg-light {
+    background: #ffc107!important;
+}
+
+.navbar{
+    background: #ffc107!important;
+}
+
+.navbar.navbar-light.bg-light{
+    background: #ffc107!important;
+
+}
+
+.cover_img{ background-image: url("/static/images/bluetarantula.jpg");
+background-repeat: no-repeat;
+background-size: cover;
+width: 1350px;
+height: 300px}
+
+#user_name{
+float: right;}
+
+.nav{float: right}
+
+.information{display: list-item}
+
+p{padding-right: 2vh}
+
+.buy{
+    border-radius: 25%;
+    background-color: #d49927;
+    border-color: #d49927;
+    float: bottom;
+}

@@ -62,6 +62,21 @@ def main_page():
     return render_template('main_page.html', all_spiders=all_spiders, username=username)
 
 
+@app.route('/new-spider')
+def get_new_spider():
+    return render_template("new_spider.html")
+
+
+@app.route('/new-spider-detail', methods=["GET","POST"])
+def add_new_spider():
+    spider_name = request.args["spider-name"]
+    world = request.args["world"]
+    price = request.args["price"]
+    info = request.args["info"]
+    data_handler.insert_new_spiders(spider_name, world, int(price), info)
+    return redirect("/")
+
+
 def main():
     app.run(debug=True)
 
