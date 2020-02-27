@@ -79,3 +79,52 @@ def get_username_by_user_id(cursor,userid):
                 WHERE id = %(userid)s
     """,
                    {"userid": userid})
+<<<<<<< Updated upstream:data_handler.py
+=======
+
+
+@database_common.connection_handler
+def get_spider_by_id(cursor, spider_id):
+    cursor.execute("""
+                    SELECT * FROM spiders
+                    WHERE spiders.id = %(spider_id)s
+    """, {"spider_id": spider_id})
+
+
+@database_common.connection_handler
+def get_spider_by_name(cursor,name):
+    cursor.execute("""
+                  SELECT spiders.id FROM spiders
+                  WHERE spiders.spider_name = %(name)s
+                  LIMIT 1
+    """, {"name": name})
+    spiderid = cursor.fetchone()
+    return spiderid
+
+@database_common.connection_handler
+def get_all_spider_names(cursor):
+    cursor.execute("""
+                    SELECT spiders.spider_name FROM spiders
+    """)
+    names = cursor.fetchall()
+    return names
+
+
+@database_common.connection_handler
+def insert_spider_img(cursor, spider_id, filename):
+    cursor.execute("""
+                INSERT INTO spider_imgs (spider_id, images)
+                VALUES (%(spider_id)s, %(filename)s)   
+    """, {"spider_id": spider_id, "filename": filename})
+
+@database_common.connection_handler
+def get_cart_content(cursor):
+    pass
+
+@database_common.connection_handler
+def get_user_id(cursor, user_name):
+    cursor.execute("""SELECT id FROM users WHERE user_name = %(user_name)s;""", {'user_name': user_name})
+    user_id = cursor.fetchall()
+
+    return user_id
+>>>>>>> Stashed changes:data/data_handler.py

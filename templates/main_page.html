@@ -24,7 +24,7 @@
                 <button id="register" type="submit" formaction="/registration">REGISTER</button>
                 <p>{{ error }}</p>
             </form>
-            {% elif username == "Admin" %}
+            {% elif username == "Admin" %}y
                <div class="nav">
                 <button class="counter" style="font-size:20px"> 0 <i class="fa fa-shopping-cart"></i></button>
                 <p id="user_name">{{username}}  </p>
@@ -37,6 +37,10 @@
                 </form>
             </div>
          {% else %}
+<<<<<<< Updated upstream
+=======
+                <a href="{{ url_for('get_cart_items') }}" class="counter" style="font-size:20px"> 0 <i class="fa fa-shopping-cart"></i></a>
+>>>>>>> Stashed changes
                 <form  class="form-inline" action="/logout" id="logged_in">
                     <p>{{username}}</p>
                     <button id=logout">LOGOUT</button>
