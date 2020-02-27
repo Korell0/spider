@@ -37,6 +37,7 @@
                 </form>
             </div>
          {% else %}
+                <button class="counter" style="font-size:20px"> 0 <i class="fa fa-shopping-cart"></i></button>
                 <form  class="form-inline" action="/logout" id="logged_in">
                     <p>{{username}}</p>
                     <button id=logout">LOGOUT</button>
@@ -53,7 +54,9 @@
         <p>World : {{ spider.world }}</p>
         <p>Price(HUF) : {{ spider.price }}</p>
         <p>Info : {{ spider.information }}</p>
-        <button data-spiderid="{{ spider.id }}" class="buy">BUY THAT SHIT</button>
+            <form action="/spider-details/{{ spider.id }}">
+        <button class="buy">BUY</button>
+                </form>
     </div>
 {% endfor %}
     </div>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template,session,request,redirect,make_response
+from flask import Flask, render_template, session, request, redirect, make_response
 import data_handler
 import os
 
@@ -64,17 +64,32 @@ def main_page():
 
 @app.route('/new-spider')
 def get_new_spider():
-    return render_template("new_spider.html")
+    return render_template("new_spider.html",error=None)
 
 
-@app.route('/new-spider-detail', methods=["GET","POST"])
+@app.route('/new-spider-detail', methods=["GET", "POST"])
 def add_new_spider():
-    spider_name = request.args["spider-name"]
-    world = request.args["world"]
-    price = request.args["price"]
-    info = request.args["info"]
-    data_handler.insert_new_spiders(spider_name, world, int(price), info)
-    return redirect("/")
+    spider_name = request.form["spider-name"]
+    all_names_raw = data_handler.get_all_spider_names()
+    list_of_spiders = []
+    for items in all_names_raw:
+        for key , value in items.items():
+            list_of_spiders.append(value)
+    if spider_name in list_of_spiders:
+        error = "There are a spider like that already"
+        return render_template('new_spider.html', error=error)
+    else:
+        world = request.form["world"]
+        price = request.form["price"]
+        info = request.form["info"]
+        data_handler.insert_new_spiders(spider_name, world, int(price), info)
+        if request.files['file']:
+            file = request.files['file']
+            file.save(path + "/static/images/" + file.filename)
+            spider_id = data_handler.get_spider_by_name(request.form["spider-name"])
+            for key, value in spider_id.items():
+                data_handler.insert_spider_img(value, file.filename)
+        return redirect("/")
 
 
 def main():

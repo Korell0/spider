@@ -42,16 +42,28 @@
             {%endif%}
     </nav>
 <div class="cover_img"></div>
-
+{% if error != None %}
+<div>{{ error }}</div>
+{% endif %}
 <div class="information">
-    <form action="/new-spider-detail" method="GET">
-    <input class="spider-name" name="spider-name" placeholder="The nam eof the spider" required>
+    <form action="/new-spider-detail" method="POST" enctype="multipart/form-data">
+    <input class="spider-name" name="spider-name" placeholder="The name of the spider" required>
     <input class="world-of-spider" name="world" placeholder="Where does it came from?" required>
     <input class="price of spider" name="price" placeholder="How much does it cost?" required>
     <input class="info" name="info" placeholder="Short info about it" required>
+        <div class="input-group mb-3 select">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">IMG</span>
+                  <br>
+              </div>
+              <div class="custom-file">
+                  <br>
+                <input type="file" name="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01"></label>
+              </div>
+            </div>
         <button type="submit">SUBMIT SPIDER</button>
         </form>
 </div>
-
 </body>
 </html>

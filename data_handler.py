@@ -40,7 +40,7 @@ def get_username_by_user_id(cursor, user_id):
 
 
 @database_common.connection_handler
-def get_hash_from_database(cursor,username):
+def get_hash_from_database(cursor, username):
     cursor.execute("""
                 SELECT users.hashed_password FROM users
                 WHERE user_name = %(username)s
@@ -62,7 +62,7 @@ def verify_password(password, hash):
 
 
 @database_common.connection_handler
-def registration(cursor,username,password):
+def registration(cursor, username, password):
     hashed_bytes = get_hash_from_password(password)
     cursor.execute("""
                     INSERT INTO users (user_name,hashed_password)
@@ -73,9 +73,44 @@ def registration(cursor,username,password):
 
 
 @database_common.connection_handler
-def get_username_by_user_id(cursor,userid):
+def get_username_by_user_id(cursor, userid):
     cursor.execute("""
                 SELECT user_name FROM users
                 WHERE id = %(userid)s
     """,
                    {"userid": userid})
+
+
+@database_common.connection_handler
+def get_spider_by_id(cursor, spider_id):
+    cursor.execute("""
+                    SELECT * FROM spiders
+                    WHERE spiders.id = %(spider_id)s
+    """, {"spider_id": spider_id})
+
+
+@database_common.connection_handler
+def get_spider_by_name(cursor,name):
+    cursor.execute("""
+                  SELECT spiders.id FROM spiders
+                  WHERE spiders.spider_name = %(name)s
+                  LIMIT 1
+    """, {"name": name})
+    spiderid = cursor.fetchone()
+    return spiderid
+
+@database_common.connection_handler
+def get_all_spider_names(cursor):
+    cursor.execute("""
+                    SELECT spiders.spider_name FROM spiders
+    """)
+    names = cursor.fetchall()
+    return names
+
+
+@database_common.connection_handler
+def insert_spider_img(cursor, spider_id, filename):
+    cursor.execute("""
+                INSERT INTO spider_imgs (spider_id, images)
+                VALUES (%(spider_id)s, %(filename)s)   
+    """, {"spider_id": spider_id, "filename": filename})
