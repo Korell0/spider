@@ -42,6 +42,17 @@
             {%endif%}
     </nav>
 <div class="cover_img"></div>
-
+<div class="card">
+    {% for detail in details %}
+    <h2 class="spider-name">{{ detail.spider_name }}</h2>
+    <div class="spider-info">{{ detail.world }}</div>
+    <div class="spider-info">{{ detail.information }}</div>
+    <img src="/static/images/{{ detail.images }}">
+    <div class="spider-info">Buy this spider for {{ detail.price }} HUF</div>
+        <form action="/add-spider-to-cart/{{ detail.id }}">
+    <button type="submit">ADD TO CART</button>
+        </form>
+    {% endfor %}
+</div>
 </body>
 </html>

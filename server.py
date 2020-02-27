@@ -92,6 +92,49 @@ def add_new_spider():
         return redirect("/")
 
 
+@app.route('/spider-details/<spider_id>')
+def spider_details(spider_id):
+    details = data_handler.get_spider_by_id(int(spider_id))
+    return render_template("details.html", details=details)
+
+
+@app.route('/add-spider-to-cart/<spider_id>')
+def add_spider_to_cart(spider_id):
+    username = session.get("username")
+    raw_user_id = data_handler.get_user_id_by_username(username)
+    user_id = ""
+    for item in raw_user_id:
+        for key, value in item.items():
+            user_id = value
+    data_handler.insert_order(user_id, spider_id)
+    return redirect("/")
+
+
+@app.route('/edit-spider/<spider_id>/edit', methods=["GET", "POST"])
+def route_edit_question(spider_id):
+    if request.method == "GET":
+        username = session["username"]
+        spider_data = data_handler.get_spider_by_id(spider_id)
+        return render_template("edit_spider.html", spider_id=spider_id,spider_data=spider_data, username=username)
+    if request.method == "POST":
+        if request.files['file']:
+            file = request.files['file']
+            file.save(path + "/static/images/" + file.filename)
+            data_handler.insert_spider_img(spider_id, file.filename)
+            data_handler.edit_spider(spider_id, request.form.get("spider-name"), request.form.get("world"),request.form.get("price"),
+                                     request.form.get("info"))
+        else:
+            data_handler.edit_spider(spider_id, request.form.get("spider-name"), request.form.get("world"),
+                                     request.form.get("price"), request.form.get("info"))
+        return redirect('/')
+
+
+@app.route('/delete-spider/<spider_id>')
+def delete_spider(spider_id):
+    data_handler.delete_spider_by_id(spider_id)
+    return redirect('/')
+
+
 def main():
     app.run(debug=True)
 
