@@ -13,7 +13,7 @@ def insert_new_spiders(cursor, spider_name, world, price, info):
 @database_common.connection_handler
 def get_spider_data(cursor):
     cursor.execute("""
-                    SELECT spiders.spider_name,spiders.world,spiders.price,spiders.information FROM spiders
+                    SELECT spiders.id,spiders.spider_name,spiders.world,spiders.price,spiders.information FROM spiders
     """)
     all_spiders = cursor.fetchall()
     return all_spiders
@@ -38,9 +38,26 @@ def get_username_by_user_id(cursor, user_id):
     username = cursor.fetchone()
     return username
 
+@database_common.connection_handler
+def get_user_id_by_username(cursor,username):
+    cursor.execute("""
+                    SELECT users.id FROM users
+                    WHERE users.user_name = %(username)s
+    """, {"username": username})
+    user_id = cursor.fetchall()
+    return user_id
+
 
 @database_common.connection_handler
-def get_hash_from_database(cursor,username):
+def insert_order(cursor,user_id,spider_id):
+    cursor.execute("""
+                    INSERT INTO orders (spider_id, user_id ) 
+                    VALUES (%(spider_id)s,%(user_id)s)
+    """, {"user_id": user_id, "spider_id": spider_id})
+
+
+@database_common.connection_handler
+def get_hash_from_database(cursor, username):
     cursor.execute("""
                 SELECT users.hashed_password FROM users
                 WHERE user_name = %(username)s
@@ -62,7 +79,7 @@ def verify_password(password, hash):
 
 
 @database_common.connection_handler
-def registration(cursor,username,password):
+def registration(cursor, username, password):
     hashed_bytes = get_hash_from_password(password)
     cursor.execute("""
                     INSERT INTO users (user_name,hashed_password)
@@ -73,12 +90,13 @@ def registration(cursor,username,password):
 
 
 @database_common.connection_handler
-def get_username_by_user_id(cursor,userid):
+def get_username_by_user_id(cursor, userid):
     cursor.execute("""
                 SELECT user_name FROM users
                 WHERE id = %(userid)s
     """,
                    {"userid": userid})
+<<<<<<< HEAD:data/data_handler.py
 <<<<<<< Updated upstream:data_handler.py
 =======
 
@@ -89,6 +107,8 @@ def get_spider_by_id(cursor, spider_id):
                     SELECT * FROM spiders
                     WHERE spiders.id = %(spider_id)s
     """, {"spider_id": spider_id})
+=======
+>>>>>>> master:data_handler.py
 
 
 @database_common.connection_handler
@@ -117,6 +137,7 @@ def insert_spider_img(cursor, spider_id, filename):
                 VALUES (%(spider_id)s, %(filename)s)   
     """, {"spider_id": spider_id, "filename": filename})
 
+<<<<<<< HEAD:data/data_handler.py
 @database_common.connection_handler
 def get_cart_content(cursor):
     pass
@@ -128,3 +149,32 @@ def get_user_id(cursor, user_name):
 
     return user_id
 >>>>>>> Stashed changes:data/data_handler.py
+=======
+
+@database_common.connection_handler
+def get_spider_by_id(cursor, spider_id):
+    cursor.execute("""
+                    SELECT spiders.id, spiders.spider_name, spiders.world, spiders.price, spiders.information,si.images AS images FROM spiders
+                    LEFT JOIN spider_imgs si on spiders.id = si.spider_id
+                    WHERE  spiders.id = %(spider_id)s
+    """, {"spider_id": spider_id})
+    details = cursor.fetchall()
+    return details
+
+
+@database_common.connection_handler
+def edit_spider(cursor, spider_id, spider_name, world, price, info):
+    cursor.execute("""
+                    UPDATE spiders
+                    SET spider_name = %(spider_name)s, world = %(world)s, price = %(price)s, information = %(info)s
+                    WHERE spiders.id = %(spider_id)s
+    """, {"spider_id": spider_id, "spider_name": spider_name, "world": world, "price": price, "info": info})
+
+
+@database_common.connection_handler
+def delete_spider_by_id(cursor,spider_id):
+    cursor.execute("""
+                    DELETE FROM spiders
+                    WHERE id = %(spider_id)s
+    """, {"spider_id": spider_id})
+>>>>>>> master:data_handler.py

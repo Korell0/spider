@@ -12,7 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-light sticky-top">
     <a class="navbar-brand">
     SpiderFarm
     </a>
@@ -37,12 +37,13 @@
                 </form>
             </div>
          {% else %}
+                <button class="counter" style="font-size:20px"> 0 <i class="fa fa-shopping-cart"></i></button>
+               <p>{{username}}</p>
 <<<<<<< Updated upstream
 =======
                 <a href="{{ url_for('get_cart_items') }}" class="counter" style="font-size:20px"> 0 <i class="fa fa-shopping-cart"></i></a>
 >>>>>>> Stashed changes
                 <form  class="form-inline" action="/logout" id="logged_in">
-                    <p>{{username}}</p>
                     <button id=logout">LOGOUT</button>
                 </form>
             {%endif%}
@@ -53,11 +54,18 @@
     <div class="row">
     {% for spider in all_spiders %}
         <div class="spider-card">
+        {% if username == "Admin"  %}
+            <form action="/edit-spider/{{ spider.id }}/edit" method="GET">
+                <button>X</button>
+            </form>
+            {% endif %}
         <p>Name : {{ spider.spider_name }}</p>
         <p>World : {{ spider.world }}</p>
         <p>Price(HUF) : {{ spider.price }}</p>
         <p>Info : {{ spider.information }}</p>
-        <button data-spiderid="{{ spider.id }}" class="buy">BUY THAT SHIT</button>
+            <form action="/spider-details/{{ spider.id }}">
+        <button class="buy">DETAILS</button>
+                </form>
     </div>
 {% endfor %}
     </div>

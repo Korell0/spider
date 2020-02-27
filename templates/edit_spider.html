@@ -42,17 +42,33 @@
             {%endif%}
     </nav>
 <div class="cover_img"></div>
-<div class="card">
-    {% for detail in details %}
-    <h2 class="spider-name">{{ detail.spider_name }}</h2>
-    <div class="spider-info">{{ detail.world }}</div>
-    <div class="spider-info">{{ detail.information }}</div>
-    <img src="/static/images/{{ detail.images }}">
-    <div class="spider-info">Buy this spider for {{ detail.price }} HUF</div>
-        <form action="/add-spider-to-cart/{{ detail.id }}">
-    <button type="submit">ADD TO CART</button>
+{% if error != None %}
+<div>{{ error }}</div>
+{% endif %}
+<div class="information">
+    {% for data in spider_data %}
+        <form action="/delete-spider/{{ spider_id }}">
+        <button type="submit">DELETE SPIDER</button>
         </form>
-    {% endfor %}
+    <form action="/edit-spider/{{ spider_id }}/edit" method="POST" enctype="multipart/form-data">
+    <input class="spider-name" name="spider-name" placeholder="The name of the spider" value="{{ data.spider_name }}" required>
+    <input class="world-of-spider" name="world" placeholder="Where does it came from?" value="{{ data.world }}" required>
+    <input class="price of spider" name="price" placeholder="How much does it cost?" value="{{ data.price }}" required>
+    <input class="info" name="info" placeholder="Short info about it" value="{{ data.information}}" required>
+        <div class="input-group mb-3 select">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">IMG</span>
+                  <br>
+              </div>
+              <div class="custom-file">
+                  <br>
+                <input type="file" name="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01"></label>
+              </div>
+            </div>
+        <button type="submit">SUBMIT SPIDER</button>
+        {% endfor %}
+        </form>
 </div>
 </body>
 </html>
