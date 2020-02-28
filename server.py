@@ -26,7 +26,7 @@ def is_valid_registration():
 def registration():
     if is_valid_registration():
         if request.form["username"] in data_handler.get_usernames_from_database():
-            error = "This username is already in use"
+            error = "This username is already taken"
             return render_template("error.html", error=error)
         data_handler.registration(request.form["username"], request.form["password"])
         session["username"] = request.form["username"]
@@ -59,7 +59,8 @@ def logout():
 def main_page():
     all_spiders = data_handler.get_spider_data()
     username = session.get("username")
-    return render_template('main_page.html', all_spiders=all_spiders, username=username)
+    user_id = data_handler.get_user_id(username)
+    return render_template('main_page.html', all_spiders=all_spiders, username=username, user_id=user_id)
 
 
 @app.route('/new-spider')
@@ -134,7 +135,12 @@ def delete_spider(spider_id):
     data_handler.delete_spider_by_id(spider_id)
     return redirect('/')
 
+'''
+@app.route('/cart/<user_id>')
+def get_cart_items():
+    return render_template("cart.html")
 
+'''
 def main():
     app.run(debug=True)
 

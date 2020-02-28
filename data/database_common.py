@@ -9,7 +9,6 @@ def get_connection_string():
     host = os.environ.get('host')
     database_name = os.environ.get('db_name')
 
-
     env_variables_defined = user_name and password and host and database_name
 
     if env_variables_defined:
