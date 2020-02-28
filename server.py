@@ -135,12 +135,12 @@ def delete_spider(spider_id):
     data_handler.delete_spider_by_id(spider_id)
     return redirect('/')
 
-
+'''
 @app.route('/cart/<user_id>')
 def get_cart_items():
     return render_template("cart.html")
 
-
+'''
 def main():
     app.run(debug=True)
 

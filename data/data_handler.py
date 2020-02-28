@@ -96,19 +96,6 @@ def get_username_by_user_id(cursor, userid):
                 WHERE id = %(userid)s
     """,
                    {"userid": userid})
-<<<<<<< HEAD:data/data_handler.py
-<<<<<<< Updated upstream:data_handler.py
-=======
-
-
-@database_common.connection_handler
-def get_spider_by_id(cursor, spider_id):
-    cursor.execute("""
-                    SELECT * FROM spiders
-                    WHERE spiders.id = %(spider_id)s
-    """, {"spider_id": spider_id})
-=======
->>>>>>> master:data_handler.py
 
 
 @database_common.connection_handler
@@ -137,19 +124,6 @@ def insert_spider_img(cursor, spider_id, filename):
                 VALUES (%(spider_id)s, %(filename)s)   
     """, {"spider_id": spider_id, "filename": filename})
 
-<<<<<<< HEAD:data/data_handler.py
-@database_common.connection_handler
-def get_cart_content(cursor):
-    pass
-
-@database_common.connection_handler
-def get_user_id(cursor, user_name):
-    cursor.execute("""SELECT id FROM users WHERE user_name = %(user_name)s;""", {'user_name': user_name})
-    user_id = cursor.fetchall()
-
-    return user_id
->>>>>>> Stashed changes:data/data_handler.py
-=======
 
 @database_common.connection_handler
 def get_spider_by_id(cursor, spider_id):
@@ -172,9 +146,8 @@ def edit_spider(cursor, spider_id, spider_name, world, price, info):
 
 
 @database_common.connection_handler
-def delete_spider_by_id(cursor,spider_id):
+def delete_spider_by_id(cursor, spider_id):
     cursor.execute("""
                     DELETE FROM spiders
                     WHERE id = %(spider_id)s
     """, {"spider_id": spider_id})
->>>>>>> master:data_handler.py

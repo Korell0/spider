@@ -79,3 +79,59 @@ def get_username_by_user_id(cursor,userid):
                 WHERE id = %(userid)s
     """,
                    {"userid": userid})
+
+
+@database_common.connection_handler
+def get_spider_by_id(cursor, spider_id):
+    cursor.execute("""SELECT * FROM spiders WHERE  id = %(spider_id)s;""", {'spider_id': spider_id})
+    spider = cursor.fetchall()
+    return spider
+
+
+@database_common.connection_handler
+def get_user_id_by_username(cursor, username):
+    cursor.execute("""SELECT * FROM users WHERE user_name = %(username)s;""", {'username': username})
+    user = cursor.fetchall()
+    return user
+
+
+@database_common.connection_handler
+def insert_order(cursor, user_id, spider_id):
+    cursor.execute("""INSERT INTO orders (spider_id, user_id) VALUES (%(spider_id)s, %(user_id)s);""", {'spider_id': spider_id, 'user_id':user_id})
+
+
+@database_common.connection_handler
+def get_spider_by_name(cursor, spider_name):
+    cursor.execute("""SELECT id FROM spiders WHERE spider_name = %(spider_name)s; """, {'spider_name': spider_name})
+    spider = cursor.fetchall()
+    return spider
+
+
+@database_common.connection_handler
+def get_all_spider_names(cursor):
+    cursor.execute("""SELECT spider_name FROM spiders;""")
+    all_spider_names = cursor.fetchall()
+    return all_spider_names
+
+
+@database_common.connection_handler
+def insert_spider_img(cursor, spider_name, filename):
+    cursor.execute("""INSERT INTO spider_imgs (name, images) VALUES (%(spider_name)s, %(filename)s); """, {'spider_name':spider_name, 'filename':filename})
+
+
+@database_common.connection_handler
+def get_user_id(cursor, username):
+    cursor.execute("""SELECT id FROM users WHERE user_name = %(username)s;""", {'username':username})
+    user_id = cursor.fetchall()
+    return user_id
+
+
+@database_common.connection_handler
+def delete_spider_by_id(cursor, spider_id):
+    cursor.execute("""DELETE FROM spiders WHERE id = %(s_id)s;""", {'s_id': spider_id})
+
+
+@database_common.connection_handler
+def edit_spider(cursor, spider_id, name, world, price, info):
+    cursor.execute("""UPDATE spiders SET spider_name = %(name)s, world =%(world)s, price = %(price)s, info = %(info)s WHERE id = %(s_id)s;""",
+                   {'name': name, 'price': price, 'world': world, 'info':info, 's_id': spider_id})
