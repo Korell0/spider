@@ -58,7 +58,10 @@ def logout():
 @app.route('/')
 def main_page():
     all_spiders = data_handler.get_spider_data()
-    username = session.get("username")
+    if session.get("username") is not None:
+        username = session.get("username")
+    else:
+        username = None
     return render_template('main_page.html', all_spiders=all_spiders, username=username)
 
 
@@ -95,12 +98,12 @@ def add_new_spider():
 @app.route('/spider-details/<spider_id>')
 def spider_details(spider_id):
     details = data_handler.get_spider_by_id(int(spider_id))
-    return render_template("details.html", details=details)
+    return render_template("details.html", details=details,username=session.get("username"))
 
 
 @app.route('/add-spider-to-cart/<spider_id>')
 def add_spider_to_cart(spider_id):
-    username = session.get("username")
+    username = session["username"]
     raw_user_id = data_handler.get_user_id_by_username(username)
     user_id = ""
     for item in raw_user_id:
@@ -111,7 +114,7 @@ def add_spider_to_cart(spider_id):
 
 
 @app.route('/edit-spider/<spider_id>/edit', methods=["GET", "POST"])
-def route_edit_question(spider_id):
+def route_edit_spider(spider_id):
     if request.method == "GET":
         username = session["username"]
         spider_data = data_handler.get_spider_by_id(spider_id)

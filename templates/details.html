@@ -21,7 +21,6 @@
                 <label for="password"></label><input type="password" name="password" id="password" placeholder="Password">
                 <button id="loginbtn" type="submit">LOGIN</button>
                 <button id="register" type="submit" formaction="/registration">REGISTER</button>
-                <p>{{ error }}</p>
             </form>
             {% elif username == "Admin" %}
                <div class="nav">
@@ -30,11 +29,10 @@
                 <button type="submit">Add new spider</button>
                 </form>
                 <form  class="form-inline" action="/logout" id="logged_in">
-
                     <button id=logout">LOGOUT</button>
                 </form>
             </div>
-         {% else %}
+         {% elif username != None %}
                 <form  class="form-inline" action="/logout" id="logged_in">
                     <p>{{username}}</p>
                     <button id=logout">LOGOUT</button>
