@@ -26,7 +26,7 @@
             </form>
             {% elif username == "Admin" %}
                <div class="nav">
-                <button class="counter" style="font-size:20px"> 0 <i class="fa fa-shopping-cart"></i></button>
+                <button class="counter" style="font-size:20px">  <i class="fa fa-shopping-cart"></i></button>
                 <p id="user_name">{{username}}  </p>
                 <form class="form-inline" action="/new-spider">
                 <button type="submit">Add new spider</button>
@@ -37,8 +37,10 @@
                 </form>
             </div>
          {% else %}
-                <button class="counter" style="font-size:20px"> 0 <i class="fa fa-shopping-cart"></i></button>
                <p>{{username}}</p>
+            <form action="/get_cart_content/{{ user_id }}">
+                 <button class="counter" style="font-size:20px"><i class="fa fa-shopping-cart"></i></button>
+            </form>
                 <form  class="form-inline" action="/logout" id="logged_in">
                     <button id=logout">LOGOUT</button>
                 </form>

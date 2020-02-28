@@ -28,3 +28,18 @@ background-color: #d49800;}
 
 .spider-name{font-size: xx-large;
 color: #d49800}
+
+.order_card{
+    border: 1px solid;
+    border-color: grey;
+    border-radius: 10px;
+    text-align: center;
+    padding: 5px;
+    width: 12%;
+    display: inline-block;
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    background-color: lightgrey;
+
+}

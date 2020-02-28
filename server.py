@@ -1,5 +1,5 @@
 from flask import Flask, render_template, session, request, redirect, make_response
-import data_handler
+from data import data_handler
 import os
 
 app = Flask(__name__)
@@ -26,7 +26,7 @@ def is_valid_registration():
 def registration():
     if is_valid_registration():
         if request.form["username"] in data_handler.get_usernames_from_database():
-            error = "This username is already in use"
+            error = "This username is already taken"
             return render_template("error.html", error=error)
         data_handler.registration(request.form["username"], request.form["password"])
         session["username"] = request.form["username"]
@@ -58,11 +58,13 @@ def logout():
 @app.route('/')
 def main_page():
     all_spiders = data_handler.get_spider_data()
-    if session.get("username") is not None:
-        username = session.get("username")
-    else:
-        username = None
-    return render_template('main_page.html', all_spiders=all_spiders, username=username)
+    username = session.get("username")
+    user_id = data_handler.get_user_id(username)
+    right_id = 0
+    for item in user_id:
+        for key,value in item.items():
+            right_id = value
+    return render_template('main_page.html', all_spiders=all_spiders, username=username, user_id=right_id)
 
 
 @app.route('/new-spider')
@@ -136,6 +138,12 @@ def route_edit_spider(spider_id):
 def delete_spider(spider_id):
     data_handler.delete_spider_by_id(spider_id)
     return redirect('/')
+
+
+@app.route('/get_cart_content/<user_id>')
+def get_cart_content(user_id):
+    cart_content = data_handler.get_cart_contet(user_id)
+    return render_template('cart.html', cart_content=cart_content)
 
 
 def main():
